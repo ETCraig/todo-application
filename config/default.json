@@ -1,0 +1,4 @@
+  {
+      "mongoURI": "mongodb+srv://todo-user-747:TodoListAccess123@cluster0.4x2jk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      "jwtSecret": "terceStIpeeK"
+  }
