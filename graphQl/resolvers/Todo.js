@@ -38,7 +38,7 @@ module.exports = {
       const newTodoList = new TodoList({
         name,
         account,
-        details
+        details,
       });
 
       const todoList = await newTodoList.save();
@@ -69,7 +69,7 @@ module.exports = {
         { new: true }
       );
       todoList.save();
-      
+
       return {
         ...todoList._doc,
         id: todoList.id,

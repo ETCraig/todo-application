@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 
 import axios from "axios";
-import Button from "../components/Button";
 import Input from "../components/Input";
-import { Modal } from "react-bootstrap";
+import Modals from "../components/Modal";
 import Todo from "../components/Todo";
 import { useAuth } from "../context/authContext";
 import { Row } from "react-bootstrap";
-import Modals from "../components/Modal";
+import styled from "styled-components";
 
 const OptionButton = styled.div`
   padding: 10px 15px;

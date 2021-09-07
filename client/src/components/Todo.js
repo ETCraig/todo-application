@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import Button from "./Button";
 import Card from "react-bootstrap/Card";
-import styled from "styled-components";
 import { Col, Row } from "react-bootstrap";
 import Input from "./Input";
+import styled from "styled-components";
 
 const EditButton = styled(Button)`
   min-width: 0px !important;

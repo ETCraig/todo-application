@@ -23,7 +23,7 @@ const useLocalOrSessionStorage = (key, session) => {
   return [value, setValue];
 };
 
-const useLocalStorage = key => useLocalOrSessionStorage(key, false);
-const useSessionStorage = key => useLocalOrSessionStorage(key, true);
+const useLocalStorage = (key) => useLocalOrSessionStorage(key, false);
+const useSessionStorage = (key) => useLocalOrSessionStorage(key, true);
 
 export { useLocalStorage, useSessionStorage };

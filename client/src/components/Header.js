@@ -59,8 +59,7 @@ const Header = () => {
         <LogoContainer>
           <i className="far fa-list-alt"></i>
         </LogoContainer>
-        <OptionContainer>
-        </OptionContainer>
+        <OptionContainer></OptionContainer>
         <OptionContainer>
           {auth.isAuthenticated() && (
             <OptionButton as="div" onClick={() => logout()}>

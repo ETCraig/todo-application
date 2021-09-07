@@ -9,11 +9,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
   // <React.StrictMode>
-    <Router>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </Router>,
+  <Router>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  </Router>,
   // </React.StrictMode>,
   document.getElementById("root")
 );
