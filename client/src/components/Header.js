@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useAuth } from "../context/authContext";
 import { useHistory } from "react-router-dom";
 
-export const HeaderContainer = styled.div`
+const HeaderContainer = styled.div`
   height: 70px;
   width: 100%;
   display: flex;
@@ -18,7 +18,7 @@ export const HeaderContainer = styled.div`
   }
 `;
 
-export const LogoContainer = styled.div`
+const LogoContainer = styled.div`
   height: 100%;
   width: 70px;
   padding: 25px;
@@ -28,7 +28,7 @@ export const LogoContainer = styled.div`
   }
 `;
 
-export const OptionContainer = styled.div`
+const OptionContainer = styled.div`
   width: 50%;
   height: 100%;
   display: flex;
@@ -39,7 +39,7 @@ export const OptionContainer = styled.div`
   }
 `;
 
-export const OptionButton = styled.div`
+const OptionButton = styled.div`
   padding: 10px 15px;
   cursor: pointer;
 `;

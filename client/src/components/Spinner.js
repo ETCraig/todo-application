@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "styled-components";
 
-export const SpinnerOverlay = styled.div`
+const SpinnerOverlay = styled.div`
   height: 60vh;
   width: 100%;
   display: flex;
@@ -10,7 +10,7 @@ export const SpinnerOverlay = styled.div`
   align-items: center;
 `;
 
-export const SpinnerContainer = styled.div`
+const SpinnerContainer = styled.div`
   display: inline-block;
   width: 50px;
   height: 50px;

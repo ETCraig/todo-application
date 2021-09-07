@@ -5,6 +5,7 @@ const transformEvent = (event) => {
     ...event._doc,
     id: event.id,
     name: event.name,
+    details: event.details,
     account: event.account,
     active: event.active,
     todos: event.todos,
@@ -64,7 +65,7 @@ module.exports = {
 
       todoList = await TodoList.findOneAndUpdate(
         { _id: id },
-        { $set: { name, todos, active } },
+        { $set: { name, details, todos, active } },
         { new: true }
       );
       todoList.save();

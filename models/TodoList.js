@@ -13,6 +13,7 @@ const TodoListSchema = new Schema({
   },
   details: {
     type: String,
+    default: ""
   },
   todos: [
     {

@@ -8,8 +8,9 @@ import { Modal } from "react-bootstrap";
 import Todo from "../components/Todo";
 import { useAuth } from "../context/authContext";
 import { Row } from "react-bootstrap";
+import Modals from "../components/Modal";
 
-export const OptionButton = styled.div`
+const OptionButton = styled.div`
   padding: 10px 15px;
   cursor: pointer;
   color: black;
@@ -33,7 +34,7 @@ const MainView = () => {
         query: `
             query {
                 getTodos(id: "${id.id}") {
-                    id, account, name, active, todos {
+                    id, account, name, details, active, todos {
                         name, details, active
                     }
                 }
@@ -112,6 +113,7 @@ const MainView = () => {
                 id,
                 account,
                 name,
+                details,
                 active,
               }
             }
@@ -134,46 +136,91 @@ const MainView = () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
+  const handleTodoUpdate = async (e) => {
+    let stateCopy = todos;
+    let token = localStorage.getItem("token");
+    let todosArray = e.todos.length ? e.todos : [];
+
+    let requestBody = {
+      query: `
+          mutation {
+            updateTodo(
+                updateInput: {
+                    id: "${e.id}"
+                    name: "${e.name}"
+                    details: "${e.details}"
+                    active: ${true}
+                    todos: [${todosArray}]
+                }) {
+                  id, account, details, name, active, todos {
+                    name, details, active
+                }
+            }
+        }
+      `,
+    };
+
+    const response = await axios.post("/graphql", JSON.stringify(requestBody), {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    let index = stateCopy.findIndex(
+      (x) => x.id === response.data.data.updateTodo.id
+    );
+
+    stateCopy[index] = response.data.data.updateTodo;
+
+    setTodos([...stateCopy]);
+  };
+
   return (
     <div>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Todo</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Input
-            name="name"
-            type="name"
-            value={name}
-            handleChange={handleChange}
-            label="name"
-            required
-          />
-          <Input
-            name="details"
-            type="details"
-            value={details}
-            handleChange={handleChange}
-            label="details"
-            required
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button type="submit" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-          <Button disabled={!name || !details} onClick={(e) => handleSubmit(e)}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Modals
+        title="Create Todo"
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        onCreate={handleSubmit}
+        completeBtn="Save Changes"
+        closeBtn="Close"
+        size="md"
+        body={
+          <>
+            <Input
+              name="name"
+              type="name"
+              value={name}
+              handleChange={handleChange}
+              label="name"
+              required
+            />
+            <Input
+              name="details"
+              type="details"
+              value={details}
+              handleChange={handleChange}
+              label="details"
+              required
+            />
+          </>
+        }
+      />
       <OptionButton as="div" onClick={() => setShowModal(true)}>
-        <h5>Create Task <i className="far fa-plus-square"></i></h5>
+        <h5>
+          Create Task <i className="far fa-plus-square"></i>
+        </h5>
       </OptionButton>
       <Row xs={1} sm={2} md={3} lg={4} className="g-4">
         {todos.length ? (
           todos.map((todo) => (
-            <Todo todo={todo} complete={completeTodo} key={todo.id} />
+            <Todo
+              todo={todo}
+              complete={completeTodo}
+              key={todo.id}
+              handleUpdate={handleTodoUpdate}
+            />
           ))
         ) : (
           <>Please Create a New Task!</>

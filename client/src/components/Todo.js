@@ -1,42 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "./Button";
 import Card from "react-bootstrap/Card";
 import styled from "styled-components";
-import { Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
+import Input from "./Input";
 
-export const CompleteButton = styled(Button)`
-  width: 80%;
-  // opacity: 0.7;
-  position: absolute;
-  top: 255px;
-  // display: none;
-  @media screen and (max-width: 800px) {
-    display: block;
-    opacity: 0.9;
-    min-width: unset;
-    padding: 0 10px;
-  }
-`;
-
-export const CartItemContainer = styled.div`
-  width: 100%;
-  display: flex;
-  height: 80px;
-  margin-bottom: 15px;
-`;
-
-export const CartItemImage = styled.i`
-  width: 30%;
-`;
-
-export const ItemDetailsContainer = styled.div`
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 10px 20px;
+const EditButton = styled(Button)`
+  min-width: 0px !important;
+  max-width: 10% !important;
+  border-radius: 50%;
+  align-items: center;
+  margin-right: 5px;
 `;
 
 const StyledCard = styled(Card)`
@@ -45,21 +20,69 @@ const StyledCard = styled(Card)`
   max-width: 100;
 `;
 
-const Todo = ({ todo, complete }) => {
-  const { name } = todo;
+const Todo = ({ todo, complete, handleUpdate }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [todoCopy, setTodoCopy] = useState(null);
+
+  const { name, details } = todo;
+
+  useEffect(() => {
+    setTodoCopy(todo);
+  }, [todo]);
+
+  const handleChange = (e) => {
+    setTodoCopy({ ...todoCopy, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleUpdate(todoCopy);
+    setIsEditing(false);
+  };
   return (
     <Col>
       <StyledCard>
         <Card.Body>
-          <Card.Title>{name}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">
-            Card Subtitle
-          </Card.Subtitle>
-          <Card.Text>{todo.details}</Card.Text>
-          {/* <Card.Link href="#">
-            <CartItemImage className="fas fa-edit" />
-          </Card.Link> */}
-            <Button onClick={() => complete(todo)}>Complete</Button>
+          {isEditing ? (
+            <form onSubmit={handleSubmit}>
+              <Card.Title>
+                <Input
+                  name="name"
+                  type="name"
+                  value={todoCopy.name}
+                  handleChange={handleChange}
+                  label="name"
+                  required
+                />
+              </Card.Title>
+              <Card.Text>
+                <Input
+                  name="details"
+                  type="details"
+                  value={todoCopy.details}
+                  handleChange={handleChange}
+                  label="details"
+                />
+              </Card.Text>
+              <Button type="submit" disabled={!todoCopy.name.length}>
+                Save
+              </Button>
+              <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+            </form>
+          ) : (
+            <>
+              <Card.Title>{name}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                {details}
+              </Card.Subtitle>
+              <Row>
+                <EditButton onClick={() => setIsEditing(true)}>
+                  <i className="fas fa-edit" />
+                </EditButton>
+                <Button onClick={() => complete(todo)}>Complete</Button>
+              </Row>
+            </>
+          )}
         </Card.Body>
       </StyledCard>
     </Col>
