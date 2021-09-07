@@ -27,4 +27,4 @@ From here you can use the previously mentioned button to create a new task, nvig
 
 ## In Development 
 
-The design, esspecially for the main view, is still in development. As well as editing tasks, creating and completing subtasks, both of which are done in the api layer but not in the UI layer. Both are intended to be in no later than by 09/06/2021.
+Some more updated styling in the main view and the functionality for creating and completing subtasks, which is done in the api layer, are both in development.
